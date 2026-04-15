@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevate Workforce Solutions - Nepal's Premier Job Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: { 50:'#eff6ff', 100:'#dbeafe', 200:'#bfdbfe', 300:'#93c5fd', 400:'#60a5fa', 500:'#3b82f6', 600:'#2563eb', 700:'#1d4ed8', 800:'#1e40af', 900:'#1e3a8a' },
+              accent: { 500:'#f59e0b', 600:'#d97706' }
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar" class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="#" onclick="showPage('home')" class="flex items-center gap-2 cursor-pointer">
+        <div class="bg-primary-600 text-white p-2 rounded-lg">
+          <i class="fas fa-briefcase text-lg"></i>
+        </div>
+        <div>
+          <span class="text-primary-700 font-bold text-lg leading-none block">Elevate</span>
+          <span class="text-gray-500 text-xs leading-none">Workforce Solutions</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-6">
+        <a onclick="showPage('home')" class="nav-link text-gray-600 hover:text-primary-600 font-medium cursor-pointer transition-colors">Home</a>
+        <a onclick="showPage('jobs')" class="nav-link text-gray-600 hover:text-primary-600 font-medium cursor-pointer transition-colors">Find Jobs</a>
+        <a onclick="showPage('companies')" class="nav-link text-gray-600 hover:text-primary-600 font-medium cursor-pointer transition-colors">Companies</a>
+      </div>
+
+      <!-- Auth Buttons -->
+      <div id="auth-buttons" class="flex items-center gap-3">
+        <button onclick="showPage('login')" class="text-primary-600 font-medium hover:text-primary-800 transition-colors text-sm">Login</button>
+        <button onclick="showPage('register')" class="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">Sign Up</button>
+      </div>
+
+      <!-- User Menu (logged in) -->
+      <div id="user-menu" class="hidden items-center gap-3">
+        <div id="company-nav-links" class="hidden gap-4 items-center">
+          <a onclick="showPage('post-job')" class="text-sm text-gray-600 hover:text-primary-600 cursor-pointer font-medium transition-colors">
+            <i class="fas fa-plus-circle mr-1"></i>Post Job
+          </a>
+          <a onclick="showPage('dashboard')" class="text-sm text-gray-600 hover:text-primary-600 cursor-pointer font-medium transition-colors">
+            <i class="fas fa-chart-bar mr-1"></i>Dashboard
+          </a>
+        </div>
+        <div id="seeker-nav-links" class="hidden gap-4 items-center">
+          <a onclick="showPage('my-applications')" class="text-sm text-gray-600 hover:text-primary-600 cursor-pointer font-medium transition-colors">
+            <i class="fas fa-file-alt mr-1"></i>My Applications
+          </a>
+        </div>
+        <div class="relative" id="profile-dropdown-wrapper">
+          <button onclick="toggleDropdown()" class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-full transition-colors">
+            <div class="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
+              <span id="nav-avatar" class="text-white font-semibold text-sm">U</span>
+            </div>
+            <span id="nav-username" class="text-sm font-medium text-gray-700 max-w-24 truncate">User</span>
+            <i class="fas fa-chevron-down text-xs text-gray-500"></i>
+          </button>
+          <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+            <a onclick="showPage('profile'); toggleDropdown()" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+              <i class="fas fa-user w-4 text-gray-400"></i>My Profile
+            </a>
+            <hr class="my-1 border-gray-100">
+            <a onclick="logout()" class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer">
+              <i class="fas fa-sign-out-alt w-4"></i>Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== PAGES ===== -->
+<main id="main-content">
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page-section">
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-primary-800 via-primary-700 to-primary-600 text-white py-20 px-4 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+      <div class="absolute bottom-10 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+    </div>
+    <div class="max-w-5xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-sm mb-6 border border-white/20">
+        <i class="fas fa-map-marker-alt text-accent-500"></i>
+        <span>Nepal's #1 Job Portal — Kathmandu to Pokhara</span>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+        Find Your <span class="text-accent-500">Dream Job</span><br>in Nepal
+      </h1>
+      <p class="text-lg text-blue-100 mb-10 max-w-2xl mx-auto">
+        Connecting talented professionals with top companies across Nepal. 
+        Your next career opportunity is just one click away.
+      </p>
+
+      <!-- Search Box -->
+      <div class="bg-white rounded-2xl p-3 shadow-2xl max-w-3xl mx-auto">
+        <div class="flex flex-col md:flex-row gap-3">
+          <div class="flex-1 flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
+            <i class="fas fa-search text-gray-400"></i>
+            <input id="hero-search" type="text" placeholder="Job title, skills, or company..." 
+              class="bg-transparent flex-1 text-gray-700 outline-none text-sm placeholder-gray-400">
+          </div>
+          <div class="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 md:w-48">
+            <i class="fas fa-map-marker-alt text-gray-400"></i>
+            <input id="hero-location" type="text" placeholder="City..." 
+              class="bg-transparent flex-1 text-gray-700 outline-none text-sm placeholder-gray-400">
+          </div>
+          <button onclick="heroSearch()" class="bg-primary-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-primary-700 transition-colors whitespace-nowrap">
+            Search Jobs
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick filters -->
+      <div class="flex flex-wrap gap-2 justify-center mt-6">
+        <span class="text-blue-200 text-sm mr-2 mt-1">Popular:</span>
+        <button onclick="quickFilter('Engineering')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm px-3 py-1 rounded-full transition-colors">Engineering</button>
+        <button onclick="quickFilter('Data Science')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm px-3 py-1 rounded-full transition-colors">Data Science</button>
+        <button onclick="quickFilter('Design')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm px-3 py-1 rounded-full transition-colors">Design</button>
+        <button onclick="quickFilter('DevOps')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm px-3 py-1 rounded-full transition-colors">DevOps</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="bg-white border-b">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center" id="home-stats">
+        <div class="p-4"><div class="text-3xl font-bold text-primary-600" id="stat-jobs">—</div><div class="text-gray-500 text-sm mt-1">Active Jobs</div></div>
+        <div class="p-4"><div class="text-3xl font-bold text-primary-600" id="stat-companies">—</div><div class="text-gray-500 text-sm mt-1">Companies</div></div>
+        <div class="p-4"><div class="text-3xl font-bold text-primary-600" id="stat-applicants">—</div><div class="text-gray-500 text-sm mt-1">Job Seekers</div></div>
+        <div class="p-4"><div class="text-3xl font-bold text-primary-600">Nepal</div><div class="text-gray-500 text-sm mt-1">Coverage</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Jobs -->
+  <section class="py-16 px-4 max-w-7xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800">Featured Jobs</h2>
+        <p class="text-gray-500 mt-1">Latest opportunities from top companies</p>
+      </div>
+      <button onclick="showPage('jobs')" class="text-primary-600 hover:text-primary-800 font-medium text-sm flex items-center gap-1">
+        View All Jobs <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+    <div id="featured-jobs" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Loaded dynamically -->
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="bg-gray-50 py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl font-bold text-gray-800">Browse by Category</h2>
+        <p class="text-gray-500 mt-2">Explore jobs in your field of expertise</p>
+      </div>
+      <div id="categories-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Loaded dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Top Companies -->
+  <section class="py-16 px-4 max-w-7xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800">Top Companies Hiring</h2>
+        <p class="text-gray-500 mt-1">Nepal's best employers</p>
+      </div>
+      <button onclick="showPage('companies')" class="text-primary-600 hover:text-primary-800 font-medium text-sm flex items-center gap-1">
+        View All <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+    <div id="featured-companies" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <!-- Loaded dynamically -->
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-primary-700 py-16 px-4">
+    <div class="max-w-4xl mx-auto text-center text-white">
+      <h2 class="text-3xl font-bold mb-4">Ready to Start Your Journey?</h2>
+      <p class="text-primary-200 text-lg mb-8">Join thousands of professionals and companies on Elevate Workforce Solutions</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="showPage('register')" class="bg-white text-primary-700 px-8 py-3 rounded-xl font-semibold hover:bg-primary-50 transition-colors">
+          Find Jobs Now
+        </button>
+        <button onclick="showRegisterCompany()" class="border-2 border-white text-white px-8 py-3 rounded-xl font-semibold hover:bg-white/10 transition-colors">
+          Post a Job
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- JOBS LIST PAGE -->
+<div id="page-jobs" class="page-section hidden">
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-800">Find Jobs in Nepal</h1>
+      <p class="text-gray-500 mt-1">Discover your next opportunity</p>
+    </div>
+    <div class="flex flex-col lg:flex-row gap-6">
+      <!-- Filters Sidebar -->
+      <aside class="w-full lg:w-64 flex-shrink-0">
+        <div class="bg-white rounded-xl border border-gray-200 p-5 sticky top-20">
+          <h3 class="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <i class="fas fa-filter text-primary-600"></i> Filters
+          </h3>
+          
+          <div class="space-y-5">
+            <div>
+              <label class="text-sm font-medium text-gray-700 mb-2 block">Search</label>
+              <div class="relative">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
+                <input id="filter-search" type="text" placeholder="Keywords..." 
+                  class="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary-500">
+              </div>
+            </div>
+            
+            <div>
+              <label class="text-sm font-medium text-gray-700 mb-2 block">Location</label>
+              <div class="relative">
+                <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400 text-sm"></i>
+                <input id="filter-city" type="text" placeholder="City..." 
+                  class="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary-500">
+              </div>
+            </div>
+            
+            <div>
+              <label class="text-sm font-medium text-gray-700 mb-2 block">Category</label>
+              <select id="filter-category" class="w-full py-2 px-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary-500">
+                <option value="">All Categories</option>
+                <option>Engineering</option>
+                <option>Data Science</option>
+                <option>Design</option>
+                <option>DevOps</option>
+                <option>Business</option>
+                <option>Operations</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="text-sm font-medium text-gray-700 mb-2 block">Job Type</label>
+              <select id="filter-job-type" class="w-full py-2 px-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary-500">
+                <option value="">All Types</option>
+                <option value="full_time">Full Time</option>
+                <option value="part_time">Part Time</option>
+                <option value="contract">Contract</option>
+                <option value="internship">Internship</option>
+                <option value="remote">Remote</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="text-sm font-medium text-gray-700 mb-2 block">Experience Level</label>
+              <select id="filter-experience" class="w-full py-2 px-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary-500">
+                <option value="">All Levels</option>
+                <option value="entry">Entry Level</option>
+                <option value="mid">Mid Level</option>
+                <option value="senior">Senior Level</option>
+                <option value="lead">Lead</option>
+                <option value="executive">Executive</option>
+              </select>
+            </div>
+            
+            <button onclick="applyFilters()" class="w-full bg-primary-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">
+              Apply Filters
+            </button>
+            <button onclick="clearFilters()" class="w-full bg-gray-100 text-gray-600 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+              Clear All
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Jobs Grid -->
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between mb-4">
+          <span id="jobs-count-text" class="text-sm text-gray-500">Loading jobs...</span>
+          <select id="jobs-sort" onchange="applyFilters()" class="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-primary-500">
+            <option value="created_at">Latest First</option>
+            <option value="salary">Highest Salary</option>
+            <option value="applications">Most Applied</option>
+          </select>
+        </div>
+        <div id="jobs-list" class="space-y-4">
+          <div class="text-center py-12"><i class="fas fa-spinner fa-spin text-primary-600 text-2xl"></i></div>
+        </div>
+        <!-- Pagination -->
+        <div id="pagination" class="mt-8 flex justify-center gap-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JOB DETAIL PAGE -->
+<div id="page-job-detail" class="page-section hidden">
+  <div class="max-w-5xl mx-auto px-4 py-8">
+    <button onclick="goBack()" class="flex items-center gap-2 text-gray-500 hover:text-primary-600 mb-6 transition-colors text-sm">
+      <i class="fas fa-arrow-left"></i> Back to Jobs
+    </button>
+    <div id="job-detail-content">
+      <div class="text-center py-12"><i class="fas fa-spinner fa-spin text-primary-600 text-2xl"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPANIES PAGE -->
+<div id="page-companies" class="page-section hidden">
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-800">Companies in Nepal</h1>
+      <p class="text-gray-500 mt-1">Discover leading employers and explore their job openings</p>
+    </div>
+    <div class="mb-6 flex flex-col sm:flex-row gap-4">
+      <div class="relative flex-1">
+        <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
+        <input id="company-search" type="text" placeholder="Search companies..." 
+          class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500">
+      </div>
+      <button onclick="searchCompanies()" class="bg-primary-600 text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-primary-700 transition-colors">
+        Search
+      </button>
+    </div>
+    <div id="companies-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="text-center py-12 col-span-3"><i class="fas fa-spinner fa-spin text-primary-600 text-2xl"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN PAGE -->
+<div id="page-login" class="page-section hidden min-h-screen bg-gradient-to-br from-primary-50 to-blue-100 flex items-center justify-center px-4 py-12">
+  <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+    <div class="text-center mb-8">
+      <div class="bg-primary-600 text-white w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-briefcase text-2xl"></i>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-800">Welcome Back</h2>
+      <p class="text-gray-500 mt-1">Sign in to your account</p>
+    </div>
+    
+    <div id="login-error" class="hidden mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm"></div>
+    
+    <form onsubmit="handleLogin(event)" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
+        <div class="relative">
+          <i class="fas fa-envelope absolute left-3 top-3 text-gray-400 text-sm"></i>
+          <input id="login-email" type="email" required placeholder="your@email.com"
+            class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-200">
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+        <div class="relative">
+          <i class="fas fa-lock absolute left-3 top-3 text-gray-400 text-sm"></i>
+          <input id="login-password" type="password" required placeholder="Your password"
+            class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-200">
+        </div>
+      </div>
+      <button type="submit" id="login-btn" class="w-full bg-primary-600 text-white py-2.5 rounded-xl font-semibold hover:bg-primary-700 transition-colors">
+        Sign In
+      </button>
+    </form>
+    
+    <!-- Demo accounts -->
+    <div class="mt-5 p-4 bg-blue-50 rounded-xl border border-blue-100">
+      <p class="text-xs font-semibold text-blue-800 mb-2">Demo Accounts:</p>
+      <div class="space-y-1">
+        <button onclick="fillDemo('hr@leapfrog.com','password123')" class="block w-full text-left text-xs text-blue-700 hover:text-blue-900 py-0.5">
+          🏢 Company: hr@leapfrog.com / password123
+        </button>
+        <button onclick="fillDemo('arun.shrestha@gmail.com','password123')" class="block w-full text-left text-xs text-blue-700 hover:text-blue-900 py-0.5">
+          👤 Job Seeker: arun.shrestha@gmail.com / password123
+        </button>
+      </div>
+    </div>
+    
+    <p class="mt-5 text-center text-sm text-gray-600">
+      Don't have an account? <a onclick="showPage('register')" class="text-primary-600 font-semibold cursor-pointer hover:text-primary-800">Sign Up</a>
+    </p>
+  </div>
+</div>
+
+<!-- REGISTER PAGE -->
+<div id="page-register" class="page-section hidden min-h-screen bg-gradient-to-br from-primary-50 to-blue-100 flex items-center justify-center px-4 py-12">
+  <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-lg">
+    <div class="text-center mb-8">
+      <div class="bg-primary-600 text-white w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-user-plus text-2xl"></i>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-800">Create Account</h2>
+      <p class="text-gray-500 mt-1">Join Elevate Workforce Solutions</p>
+    </div>
+    
+    <!-- Role Toggle -->
+    <div class="flex bg-gray-100 p-1 rounded-xl mb-6">
+      <button id="seeker-tab" onclick="setRegisterRole('job_seeker')" 
+        class="flex-1 py-2 rounded-lg text-sm font-medium transition-all bg-white text-primary-600 shadow-sm">
+        <i class="fas fa-user mr-2"></i>Job Seeker
+      </button>
+      <button id="company-tab" onclick="setRegisterRole('company')" 
+        class="flex-1 py-2 rounded-lg text-sm font-medium transition-all text-gray-500 hover:text-gray-700">
+        <i class="fas fa-building mr-2"></i>Company
+      </button>
+    </div>
+    
+    <div id="register-error" class="hidden mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm"></div>
+    <div id="register-success" class="hidden mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm"></div>
+    
+    <form onsubmit="handleRegister(event)" class="space-y-4">
+      <input type="hidden" id="register-role" value="job_seeker">
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div class="col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
+          <div class="relative">
+            <i class="fas fa-user absolute left-3 top-3 text-gray-400 text-sm"></i>
+            <input id="register-name" type="text" required placeholder="Your full name"
+              class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-200">
+          </div>
+        </div>
+        <div class="col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
+          <div class="relative">
+            <i class="fas fa-envelope absolute left-3 top-3 text-gray-400 text-sm"></i>
+            <input id="register-email" type="email" required placeholder="your@email.com"
+              class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-200">
+          </div>
+        </div>
+        <div class="col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+          <div class="relative">
+            <i class="fas fa-lock absolute left-3 top-3 text-gray-400 text-sm"></i>
+            <input id="register-password" type="password" required placeholder="Min. 6 characters" minlength="6"
+              class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-200">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1.5">Phone</label>
+          <div class="relative">
+            <i class="fas fa-phone absolute left-3 top-3 text-gray-400 text-sm"></i>
+            <input id="register-phone" type="text" placeholder="+977-..."
+              class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-200">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1.5">Location</label>
+          <div class="relative">
+            <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400 text-sm"></i>
+            <input id="register-location" type="text" placeholder="Kathmandu, Nepal"
+              class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-200">
+          </div>
+        </div>
+        <div id="company-name-field" class="col-span-2 hidden">
+          <label class="block text-sm font-medium text-gray-700 mb-1.5">Company Name <span class="text-red-500">*</span></label>
+          <div class="relative">
+            <i class="fas fa-building absolute left-3 top-3 text-gray-400 text-sm"></i>
+            <input id="register-company-name" type="text" placeholder="Your company name"
+              class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-200">
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit" id="register-btn" class="w-full bg-primary-600 text-white py-2.5 rounded-xl font-semibold hover:bg-primary-700 transition-colors">
+        Create Account
+      </button>
+    </form>
+    
+    <p class="mt-5 text-center text-sm text-gray-600">
+      Already have an account? <a onclick="showPage('login')" class="text-primary-600 font-semibold cursor-pointer hover:text-primary-800">Sign In</a>
+    </p>
+  </div>
+</div>
+
+<!-- POST JOB PAGE -->
+<div id="page-post-job" class="page-section hidden">
+  <div class="max-w-3xl mx-auto px-4 py-8">
+    <div class="mb-8">
+      <button onclick="goBack()" class="flex items-center gap-2 text-gray-500 hover:text-primary-600 mb-4 transition-colors text-sm">
+        <i class="fas fa-arrow-left"></i> Back
+      </button>
+      <h1 class="text-2xl font-bold text-gray-800">Post a New Job</h1>
+      <p class="text-gray-500 mt-1">Fill in the details to attract the right candidates</p>
+    </div>
+    
+    <div id="post-job-error" class="hidden mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm"></div>
+    <div id="post-job-success" class="hidden mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm"></div>
+    
+    <form id="post-job-form" onsubmit="handlePostJob(event)" class="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Job Title <span class="text-red-500">*</span></label>
+        <input id="job-title" type="text" required placeholder="e.g. Senior React Developer"
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500">
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Job Type <span class="text-red-500">*</span></label>
+          <select id="job-type-input" required class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500">
+            <option value="">Select type...</option>
+            <option value="full_time">Full Time</option>
+            <option value="part_time">Part Time</option>
+            <option value="contract">Contract</option>
+            <option value="internship">Internship</option>
+            <option value="remote">Remote</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Experience Level <span class="text-red-500">*</span></label>
+          <select id="job-experience" required class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500">
+            <option value="">Select level...</option>
+            <option value="entry">Entry Level</option>
+            <option value="mid">Mid Level</option>
+            <option value="senior">Senior Level</option>
+            <option value="lead">Lead</option>
+            <option value="executive">Executive</option>
+          </select>
+        </div>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+        <select id="job-category" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500">
+          <option value="">Select category...</option>
+          <option>Engineering</option>
+          <option>Data Science</option>
+          <option>Design</option>
+          <option>DevOps</option>
+          <option>Business</option>
+          <option>Operations</option>
+          <option>Marketing</option>
+          <option>Finance</option>
+          <option>HR</option>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Min Salary (NPR)</label>
+          <input id="job-salary-min" type="number" placeholder="50000"
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Max Salary (NPR)</label>
+          <input id="job-salary-max" type="number" placeholder="100000"
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">City</label>
+          <input id="job-city" type="text" placeholder="Kathmandu"
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Application Deadline</label>
+        <input id="job-deadline" type="date"
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500">
+      </div>
+      
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Job Description <span class="text-red-500">*</span></label>
+        <textarea id="job-description" required rows="5" placeholder="Describe the role, your team, and what makes this opportunity exciting..."
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 resize-none"></textarea>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Requirements</label>
+        <textarea id="job-requirements" rows="4" placeholder="List the qualifications and skills required (one per line)..."
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 resize-none"></textarea>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Responsibilities</label>
+        <textarea id="job-responsibilities" rows="4" placeholder="Describe the key responsibilities of this role..."
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 resize-none"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Required Skills</label>
+        <input id="job-skills" type="text" placeholder="React, TypeScript, Node.js (comma-separated)"
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500">
+      </div>
+      
+      <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+        <button type="button" onclick="goBack()" class="px-6 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors">
+          Cancel
+        </button>
+        <button type="submit" id="post-job-btn" class="px-8 py-2.5 bg-primary-600 text-white rounded-xl text-sm font-semibold hover:bg-primary-700 transition-colors">
+          <i class="fas fa-paper-plane mr-2"></i>Post Job
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- COMPANY DASHBOARD -->
+<div id="page-dashboard" class="page-section hidden">
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="mb-8 flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800">Company Dashboard</h1>
+        <p id="dashboard-company-name" class="text-gray-500 mt-1">Welcome back</p>
+      </div>
+      <button onclick="showPage('post-job')" class="bg-primary-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary-700 transition-colors flex items-center gap-2">
+        <i class="fas fa-plus"></i> Post New Job
+      </button>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" id="dashboard-stats">
+      <div class="bg-white rounded-xl p-5 border border-gray-200 text-center">
+        <div class="text-3xl font-bold text-primary-600" id="ds-active-jobs">—</div>
+        <div class="text-gray-500 text-sm mt-1">Active Jobs</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 border border-gray-200 text-center">
+        <div class="text-3xl font-bold text-blue-500" id="ds-total-apps">—</div>
+        <div class="text-gray-500 text-sm mt-1">Total Applications</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 border border-gray-200 text-center">
+        <div class="text-3xl font-bold text-yellow-500" id="ds-pending">—</div>
+        <div class="text-gray-500 text-sm mt-1">Pending Review</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 border border-gray-200 text-center">
+        <div class="text-3xl font-bold text-green-500" id="ds-hired">—</div>
+        <div class="text-gray-500 text-sm mt-1">Hired</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Jobs Management -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">Your Job Postings</h2>
+          <div id="my-jobs-list" class="space-y-3">
+            <div class="text-center py-8"><i class="fas fa-spinner fa-spin text-primary-600"></i></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recent Applications -->
+      <div>
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">Recent Applications</h2>
+          <div id="recent-apps-list" class="space-y-3">
+            <div class="text-center py-8"><i class="fas fa-spinner fa-spin text-primary-600"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JOB APPLICANTS VIEW -->
+<div id="page-applicants" class="page-section hidden">
+  <div class="max-w-5xl mx-auto px-4 py-8">
+    <button onclick="showPage('dashboard')" class="flex items-center gap-2 text-gray-500 hover:text-primary-600 mb-6 transition-colors text-sm">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </button>
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-gray-800">Applicants</h1>
+      <span id="applicants-job-title" class="text-sm bg-primary-50 text-primary-700 px-3 py-1 rounded-full font-medium"></span>
+    </div>
+    <div id="applicants-list" class="space-y-4">
+      <div class="text-center py-12"><i class="fas fa-spinner fa-spin text-primary-600 text-2xl"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- MY APPLICATIONS PAGE -->
+<div id="page-my-applications" class="page-section hidden">
+  <div class="max-w-5xl mx-auto px-4 py-8">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-800">My Applications</h1>
+      <p class="text-gray-500 mt-1">Track the status of your job applications</p>
+    </div>
+    <div id="my-applications-list" class="space-y-4">
+      <div class="text-center py-12"><i class="fas fa-spinner fa-spin text-primary-600 text-2xl"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE PAGE -->
+<div id="page-profile" class="page-section hidden">
+  <div class="max-w-3xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-gray-800 mb-8">My Profile</h1>
+    <div id="profile-content">
+      <div class="text-center py-12"><i class="fas fa-spinner fa-spin text-primary-600 text-2xl"></i></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- APPLY MODAL -->
+<div id="apply-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
+    <div class="p-6 border-b border-gray-100">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-bold text-gray-800">Apply for this Job</h3>
+          <p id="apply-modal-job-title" class="text-sm text-gray-500 mt-0.5"></p>
+        </div>
+        <button onclick="closeApplyModal()" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <div class="p-6 space-y-4">
+      <div id="apply-error" class="hidden p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm"></div>
+      <div id="apply-success" class="hidden p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm"></div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">Cover Letter</label>
+        <textarea id="apply-cover-letter" rows="5" placeholder="Tell us why you're a great fit for this role..."
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-500 resize-none"></textarea>
+      </div>
+    </div>
+    <div class="p-6 pt-0 flex gap-3">
+      <button onclick="closeApplyModal()" class="flex-1 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors">Cancel</button>
+      <button onclick="submitApplication()" id="apply-submit-btn" class="flex-1 py-2.5 bg-primary-600 text-white rounded-xl text-sm font-semibold hover:bg-primary-700 transition-colors">
+        <i class="fas fa-paper-plane mr-2"></i>Submit Application
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 hidden">
+  <div class="bg-gray-800 text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm">
+    <i id="toast-icon" class="fas fa-check-circle text-green-400"></i>
+    <span id="toast-message">Success!</span>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12 px-4 mt-8">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div class="md:col-span-2">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="bg-primary-600 text-white p-2 rounded-lg">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <div>
+          <span class="font-bold text-lg">Elevate Workforce Solutions</span>
+        </div>
+      </div>
+      <p class="text-gray-400 text-sm leading-relaxed">Nepal's premier job portal connecting talented professionals with top companies. Your dream career starts here.</p>
+    </div>
+    <div>
+      <h4 class="font-semibold mb-3">For Job Seekers</h4>
+      <ul class="space-y-2 text-gray-400 text-sm">
+        <li><a onclick="showPage('jobs')" class="hover:text-white cursor-pointer transition-colors">Browse Jobs</a></li>
+        <li><a onclick="showPage('companies')" class="hover:text-white cursor-pointer transition-colors">Companies</a></li>
+        <li><a onclick="showPage('register')" class="hover:text-white cursor-pointer transition-colors">Create Profile</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-semibold mb-3">For Companies</h4>
+      <ul class="space-y-2 text-gray-400 text-sm">
+        <li><a onclick="showPage('post-job')" class="hover:text-white cursor-pointer transition-colors">Post a Job</a></li>
+        <li><a onclick="showPage('dashboard')" class="hover:text-white cursor-pointer transition-colors">Dashboard</a></li>
+        <li><a onclick="showPage('register')" class="hover:text-white cursor-pointer transition-colors">Register Company</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto mt-8 pt-6 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-4">
+    <p class="text-gray-400 text-sm">© 2024 Elevate Workforce Solutions. All rights reserved. 🇳🇵 Made in Nepal</p>
+    <div class="flex gap-4 text-gray-400">
+      <span class="text-sm">Kathmandu, Nepal</span>
+      <span class="text-sm">•</span>
+      <span class="text-sm">support@elevate.com.np</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/jobs.js"></script>
+<script src="assets/js/companies.js"></script>
+<script src="assets/js/dashboard.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
