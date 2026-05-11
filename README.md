@@ -115,10 +115,10 @@ webapp/
 
 | Role | Email | Password |
 |------|-------|----------|
-| 🏢 Company | hr@leapfrog.com | password123 |
-| 🏢 Company | careers@deerwalk.com | password123 |
-| 👤 Job Seeker | arun.shrestha@gmail.com | password123 |
-| 👤 Job Seeker | priya.tamang@gmail.com | password123 |
+| 🏢 Company | Elevate@workforce.com | password123 |
+| 🏢 Company | careers@Elevate.com | password123 |
+| 👤 Job Seeker | surajkumar@gmail.com | password123 |
+| 👤 Job Seeker | Surajks@gmail.com | password123 |
 
 ---
 
